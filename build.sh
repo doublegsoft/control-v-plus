@@ -1,0 +1,1 @@
+gcc src/main.c -o bin/control-v-plus -lpthread `pkg-config --cflags --libs gtk+-3.0 ayatana-appindicator3-0.1`
