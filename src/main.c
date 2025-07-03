@@ -1,10 +1,21 @@
+/*                  _             _                 
+**   ___ ___  _ __ | |_ _ __ ___ | |    __   __ _   
+**  / __/ _ \| '_ \| __| '__/ _ \| |____\ \ / /| |_ 
+** | (_| (_) | | | | |_| | | (_) | |_____\ V /_   _|
+**  \___\___/|_| |_|\__|_|  \___/|_|      \_/  |_|  
+**
+*/
 #include <gtk/gtk.h>
 #include <libayatana-appindicator/app-indicator.h>
 
-static void menu_item_activated(GtkMenuItem *item, gpointer data) {
+static void menu_item_activated(GtkMenuItem *item, gpointer data) 
+{
   g_print("Menu item '%s' activated\n", (char *)data);
 }
 
+/*
+**
+*/
 static void create_menu(AppIndicator *indicator) {
   GtkWidget *menu = gtk_menu_new();
   
@@ -29,7 +40,8 @@ static void create_menu(AppIndicator *indicator) {
   app_indicator_set_menu(indicator, GTK_MENU(menu));
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv) 
+{
   GtkWidget* window;
   GtkWidget* button;
   GtkWidget* box;
@@ -37,12 +49,11 @@ int main(int argc, char **argv) {
   gtk_init(&argc, &argv);
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(window), "GTK Window Example");
-  gtk_window_set_default_size(GTK_WINDOW(window), 400, 300);
+  gtk_window_set_title(GTK_WINDOW(window), "Ctrl+V Plus");
+  gtk_window_set_default_size(GTK_WINDOW(window), 1200, 800);
   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
     
-  // Connect the "destroy" signal
-  // g_signal_connect(window, "destroy", G_CALLBACK(destroy_window), NULL);
+  GtkWidget* box_left = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
 
   // Create a vertical box container
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
@@ -56,8 +67,20 @@ int main(int argc, char **argv) {
   gtk_box_pack_start(GTK_BOX(box), button, TRUE, TRUE, 0);
 
   // Create a label
-  GtkWidget *label = gtk_label_new("Hello, GTK World!");
+  GtkWidget* label = gtk_label_new("Drag and drop files here");
+  gtk_widget_set_margin_top(label, 20);
+  gtk_widget_set_margin_bottom(label, 20);
+  gtk_widget_set_margin_start(label, 20);
+  gtk_widget_set_margin_end(label, 20);
   gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0);
+
+  gtk_drag_dest_set(
+    GTK_WIDGET(window), 
+    GTK_DEST_DEFAULT_ALL, 
+    NULL, 
+    0, 
+    GDK_ACTION_COPY | GDK_ACTION_MOVE
+  );
 
   // Show all widgets
   gtk_widget_show_all(window);
